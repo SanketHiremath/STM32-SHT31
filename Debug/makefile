@@ -15,6 +15,12 @@ RM := rm -rf
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(strip $(S_DEPS)),)
+-include $(S_DEPS)
+endif
+ifneq ($(strip $(S_UPPER_DEPS)),)
+-include $(S_UPPER_DEPS)
+endif
 ifneq ($(strip $(C_DEPS)),)
 -include $(C_DEPS)
 endif
@@ -40,8 +46,8 @@ SHT31.bin \
 all: SHT31.elf secondary-outputs
 
 # Tool invocations
-SHT31.elf: $(OBJS) $(USER_OBJS) C:\Users\sanke\STM32CubeIDE\personal_workspace\SHT31\STM32F103C8TX_FLASH.ld
-	arm-none-eabi-gcc -o "SHT31.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\sanke\STM32CubeIDE\personal_workspace\SHT31\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SHT31.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+SHT31.elf: $(OBJS) $(USER_OBJS) D:\Personal\ Projects\ and\ Files\github\ downloads\STM32-SHT31\STM32F103C8TX_FLASH.ld
+	arm-none-eabi-gcc -o "SHT31.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\Personal Projects and Files\github downloads\STM32-SHT31\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SHT31.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

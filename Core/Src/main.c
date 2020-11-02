@@ -23,13 +23,13 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#define thermal_address 0x44
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 uint16_t ID=0;
-uint8_t data[2];
+uint8_t data[2] = {0x24,0x00};
 unsigned char readbuff[7];
 int16_t temp_shift[9];
 int16_t temp_temp[9];
@@ -39,7 +39,7 @@ int16_t temp_temp_2[9];
 int temp;
 float cTemp;
 int i;
-#define thermal_address 0x44
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -111,13 +111,11 @@ int main(void)
   {
     /* USER CODE END WHILE */
 		HAL_Delay(50);
-		data[0]=0x24; //command
-		data[1]=0x00;
 		HAL_I2C_Master_Transmit(&hi2c2,thermal_address<<1,data,2,50);
 		HAL_Delay(50);
 		HAL_I2C_Master_Receive(&hi2c2,thermal_address<<1,readbuff,6,50);
-		 temp = (readbuff[0] * 256) + readbuff[1];
-		 cTemp = -45.0 + (175.0 * temp / 65535.0);                                  //final temperature value 
+		temp = (readbuff[0] * 256) + readbuff[1];
+		cTemp = -45.0 + (175.0 * temp / 65535.0);        //final temperature value
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
